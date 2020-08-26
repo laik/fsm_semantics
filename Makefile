@@ -15,7 +15,7 @@ test_lex: default_lex
 	gcc scanner.c fss.lex.c -o scanner && ./scanner < example/upper_example.fss && ./scanner < example/lower_example.fss && rm -f scanner
 
 go_test: go_clean go
-	go run test/main.go < example/lower_example.fss
+	go run *.go < example/lower_example.fss
 
 go_clean:
 	rm -f fss.y.go fss.lex.h fss.lex.c

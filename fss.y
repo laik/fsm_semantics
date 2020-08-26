@@ -5,7 +5,7 @@
 /* simplest version of calculator */
 
 %{
-package fss
+package main
 
 //import "github.com/laik/echoer/pkg/fsm"
 //import "github.com/laik/echoer/pkg/resource"
