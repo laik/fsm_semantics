@@ -1,0 +1,279 @@
+
+state 0
+	$accept: .ROOT $end 
+	ROOT: .    (2)
+
+	.  reduce 2 (src line 61)
+
+	ROOT  goto 1
+
+state 1
+	$accept:  ROOT.$end 
+	ROOT:  ROOT.flow_expr 
+
+	$end  accept
+	FLOW  shift 3
+	.  error
+
+	flow_expr  goto 2
+
+state 2
+	ROOT:  ROOT flow_expr.    (1)
+
+	.  reduce 1 (src line 60)
+
+
+state 3
+	flow_expr:  FLOW.TEXT step_expr FLOW_END 
+
+	TEXT  shift 4
+	.  error
+
+
+state 4
+	flow_expr:  FLOW TEXT.step_expr FLOW_END 
+
+	STEP  shift 6
+	DECI  shift 7
+	.  error
+
+	step_expr  goto 5
+
+state 5
+	flow_expr:  FLOW TEXT step_expr.FLOW_END 
+
+	FLOW_END  shift 8
+	.  error
+
+
+state 6
+	step_expr:  STEP.TEXT action_expr TO return_expr SEMICOLON 
+
+	TEXT  shift 9
+	.  error
+
+
+state 7
+	step_expr:  DECI.TEXT action_expr TO return_expr SEMICOLON 
+
+	TEXT  shift 10
+	.  error
+
+
+state 8
+	flow_expr:  FLOW TEXT step_expr FLOW_END.    (3)
+
+	.  reduce 3 (src line 64)
+
+
+state 9
+	step_expr:  STEP TEXT.action_expr TO return_expr SEMICOLON 
+
+	ACTION  shift 12
+	.  error
+
+	action_expr  goto 11
+
+state 10
+	step_expr:  DECI TEXT.action_expr TO return_expr SEMICOLON 
+
+	ACTION  shift 12
+	.  error
+
+	action_expr  goto 13
+
+state 11
+	step_expr:  STEP TEXT action_expr.TO return_expr SEMICOLON 
+
+	TO  shift 14
+	.  error
+
+
+state 12
+	action_expr:  ACTION.ASSIGN TEXT COMMA ARGS ASSIGN LIST 
+	action_expr:  ACTION.ASSIGN TEXT COMMA ARGS ASSIGN DICT 
+
+	ASSIGN  shift 15
+	.  error
+
+
+state 13
+	step_expr:  DECI TEXT action_expr.TO return_expr SEMICOLON 
+
+	TO  shift 16
+	.  error
+
+
+state 14
+	step_expr:  STEP TEXT action_expr TO.return_expr SEMICOLON 
+
+	LPAREN  shift 18
+	.  error
+
+	return_expr  goto 17
+
+state 15
+	action_expr:  ACTION ASSIGN.TEXT COMMA ARGS ASSIGN LIST 
+	action_expr:  ACTION ASSIGN.TEXT COMMA ARGS ASSIGN DICT 
+
+	TEXT  shift 19
+	.  error
+
+
+state 16
+	step_expr:  DECI TEXT action_expr TO.return_expr SEMICOLON 
+
+	LPAREN  shift 18
+	.  error
+
+	return_expr  goto 20
+
+state 17
+	step_expr:  STEP TEXT action_expr TO return_expr.SEMICOLON 
+
+	SEMICOLON  shift 21
+	.  error
+
+
+state 18
+	return_expr:  LPAREN.return_content_expr RPAREN 
+
+	TEXT  shift 23
+	OR  shift 24
+	.  error
+
+	return_content_expr  goto 22
+
+state 19
+	action_expr:  ACTION ASSIGN TEXT.COMMA ARGS ASSIGN LIST 
+	action_expr:  ACTION ASSIGN TEXT.COMMA ARGS ASSIGN DICT 
+
+	COMMA  shift 25
+	.  error
+
+
+state 20
+	step_expr:  DECI TEXT action_expr TO return_expr.SEMICOLON 
+
+	SEMICOLON  shift 26
+	.  error
+
+
+state 21
+	step_expr:  STEP TEXT action_expr TO return_expr SEMICOLON.    (4)
+
+	.  reduce 4 (src line 68)
+
+
+state 22
+	return_expr:  LPAREN return_content_expr.RPAREN 
+
+	RPAREN  shift 27
+	.  error
+
+
+state 23
+	return_content_expr:  TEXT.DEST LIST 
+	return_content_expr:  TEXT.DEST TEXT 
+
+	DEST  shift 28
+	.  error
+
+
+state 24
+	return_content_expr:  OR.return_content_expr 
+
+	TEXT  shift 23
+	OR  shift 24
+	.  error
+
+	return_content_expr  goto 29
+
+state 25
+	action_expr:  ACTION ASSIGN TEXT COMMA.ARGS ASSIGN LIST 
+	action_expr:  ACTION ASSIGN TEXT COMMA.ARGS ASSIGN DICT 
+
+	ARGS  shift 30
+	.  error
+
+
+state 26
+	step_expr:  DECI TEXT action_expr TO return_expr SEMICOLON.    (5)
+
+	.  reduce 5 (src line 73)
+
+
+state 27
+	return_expr:  LPAREN return_content_expr RPAREN.    (8)
+
+	.  reduce 8 (src line 90)
+
+
+state 28
+	return_content_expr:  TEXT DEST.LIST 
+	return_content_expr:  TEXT DEST.TEXT 
+
+	LIST  shift 31
+	TEXT  shift 32
+	.  error
+
+
+state 29
+	return_content_expr:  OR return_content_expr.    (11)
+
+	.  reduce 11 (src line 106)
+
+
+state 30
+	action_expr:  ACTION ASSIGN TEXT COMMA ARGS.ASSIGN LIST 
+	action_expr:  ACTION ASSIGN TEXT COMMA ARGS.ASSIGN DICT 
+
+	ASSIGN  shift 33
+	.  error
+
+
+state 31
+	return_content_expr:  TEXT DEST LIST.    (9)
+
+	.  reduce 9 (src line 97)
+
+
+state 32
+	return_content_expr:  TEXT DEST TEXT.    (10)
+
+	.  reduce 10 (src line 102)
+
+
+state 33
+	action_expr:  ACTION ASSIGN TEXT COMMA ARGS ASSIGN.LIST 
+	action_expr:  ACTION ASSIGN TEXT COMMA ARGS ASSIGN.DICT 
+
+	LIST  shift 34
+	DICT  shift 35
+	.  error
+
+
+state 34
+	action_expr:  ACTION ASSIGN TEXT COMMA ARGS ASSIGN LIST.    (6)
+
+	.  reduce 6 (src line 79)
+
+
+state 35
+	action_expr:  ACTION ASSIGN TEXT COMMA ARGS ASSIGN DICT.    (7)
+
+	.  reduce 7 (src line 84)
+
+
+32 terminals, 7 nonterminals
+12 grammar rules, 36/8000 states
+0 shift/reduce, 0 reduce/reduce conflicts reported
+56 working sets used
+memory: parser 8/120000
+0 extra closures
+30 shift entries, 1 exceptions
+9 goto entries
+0 entries saved by goto default
+Optimizer space used: output 40/120000
+40 table entries, 5 zero
+maximum spread: 32, maximum offset: 30

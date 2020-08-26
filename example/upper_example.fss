@@ -1,0 +1,7 @@
+FLOW myflow_1
+  STEP A { ACTION="ci",ARGS=[1.1,v1,"harbor.ym"] } => (D) ;
+  DECI D { ACTION="approval",ARGS=$NAME} => (Y->[B,E] | E->C | C->A)  ;
+  STEP B { ACTION="deploy-1",ARGS={"namespace":"admin-app","name":"iot-app-1" } } => (C) ;
+  STEP E { ACTION="deploy-2",ARGS={"namespace":"admin-app","name":"iot-app-2" } } => (C) ;
+  STEP C { ACTION="notify",ARGS={"flow":$NAME,"status":$STATE} } => () ;
+FLOW_END
